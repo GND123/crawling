@@ -1,63 +1,83 @@
+# -*- condig: utf-8 -*-
 import requests
 from bs4 import BeautifulSoup
 
+from collections import OrderedDict
+import json
+
+import argparse
 import pdb
 
-url = "http://www.chosun.com/"
+def init_args():
+    """
 
-request = requests.get(url)
-html = request.content
-soup = BeautifulSoup(html, 'html5lib')
+    :return:
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--page_num', type=int, default=10,
+                    help="Number of page want to crawling")
+    parser.add_argument('--json_path', type=str, default='josun.json',
+                    help="Path for json file to save result." )
 
-# pdb.set_trace()
-
-dt_list = soup.find_all('div', attrs={"class" : "sec_con"})
-print(len(dt_list))
-with open("data/josun_div_sec_con.txt", "w") as f_out_dt:
-    i = 1
-    for dt in dt_list:
-        f_out_dt.write("[%d]\n%s\n\n" % (i, dt))
-        i += 1
-
-# with open("data/josun_dl_all.txt", "w") as f_out_title:
-#     for dt in dt_list:
-#         f_out_title.write("="*60 + "\n%s\n%s\n" % (dt, dt.get_text().encode('utf-8')) + "="*60 + "\n\n")
+    return parser.parse_args()
 
 
-#################################
+def crawling_josun(page, json_path):
 
-# news_list = soup.find_all('dl', )
-#
-# with open("josun_final.txt", "w") as f:
-#     for news in news_list:
-#         if news.dt is not None:
-#             try:
-#                 title = news.dt.a.get_text()
-#                 title = title.replace('\t', '')
-#                 title = title.replace('\n', '')
-#                 f.write(title)
-#                 f.write(news.dt.a['href'] + "\n")
-#             except:
-#                 print("Not news:{}".format(news.dt))
-##################################
+    url = "http://news.chosun.com/svc/list_in/list.html?pn=" 
 
-# news_list = soup.select('dl.news_item') # final3
-# news_list = soup.find_all('dl', attrs={"class" : "news_item" "news_item thum"}) #final4
-# news_list = soup.select('dl.news_item')
-# print(len(news_list))
-# news_list.extend(soup.select('dl.news_item thum'))
-# print(len(news_list))
+    # dict obj for contain all news
+    dataAll = OrderedDict()
+    data_idx = 0
 
-# with open("josun_final4.txt", "w") as f:
-#     for news in news_list:
-#         if news.dt is not None:
-#             try:
-#                 title = news.dt.a.get_text()
-#                 title = title.replace('\t', '')
-#                 title = title.replace('\n', '')
-#                 f.write(title)
-#                 f.write(news.dt.a['href'] + "\n")
-#             except:
-#                 print("Not news:{}".format(news.dt))
+    for i in range(1, page+1):
+        
+        url = url + str(i) # URL + page
+        request = requests.get(url)
+        html = request.content
+        soup = BeautifulSoup(html, 'html5lib')
 
-# print("Done")
+        news_list = soup.select('#list_body_id > div.list_content > dl')
+        
+        for news in news_list:
+
+            _1 = news.find('dt').a # title & link
+            news_title = _1.text 
+            news_link = _1['href']
+            
+            _2 = news.find('dd', {"class" : "date_author"}) # date, author
+            news_date = _2.find('span', {"class" : "date"}).text
+
+            """
+            news_desc = news.find('dd', {"class" : "desc"}).a.text # description
+
+            # author
+            try:
+                news_author = _2.find('span', {"class" : "author"}).text
+                news_author = news_author.replace('\t ', '').replace('\n', '').replace(' ', '')
+            except:
+                print("page:{} number:{}, title:{}".format(i, data_idx, news_title))
+            """
+            # make dict obj
+            newsData = OrderedDict()
+            newsData['title'] = news_title
+            newsData['link'] = news_link
+            newsData['press'] = 'josun'
+            newsData['date'] = news_date
+
+            dataAll[str(data_idx)] = newsData
+            data_idx += 1
+        
+        pdb.set_trace()
+
+
+        with open(json_path, 'w') as json_out:
+            json.dump(dataAll, json_out, ensure_ascii=False, indent='\t')
+
+if __name__ == '__main__':
+    
+    args = init_args()
+
+    crawling_josun(args.page_num, args.json_path)
+
+    print("Done")
