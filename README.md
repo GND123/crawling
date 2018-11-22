@@ -10,4 +10,9 @@ from bs4 import BeautifulSoup
 ### 실험 ㅎㅎ
 ```
 ## 이력
-**[2018-11-12]** FOOT / 한겨레(hani) 코드랑 결과파일예시 올렸으니까 알아서 참고하시고 짜세여 ㅎㅎ, KBS는 크롤링이 안되여..
+**[2018-11-12]** FOOT / 한겨레(hani) 코드랑 결과파일예시 올렸으니까 알아서 참고하시고 짜세여 ㅎㅎ, KBS는 크롤링이 안되여..  
+**[2018-11-22]** NO   / 조선일 크롤링 코드와 결과파일 올림 (pj/josun.py  pj/josun.json)
+
+
+### CAUTION
+json 파일로 변환하기 전 dictionary data는 collections.OrderedDict 모듈을 사용할 것.
