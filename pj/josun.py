@@ -24,7 +24,8 @@ def init_args():
 
 def crawling_josun(page, json_path):
 
-    url = "http://news.chosun.com/svc/list_in/list.html?pn=" 
+    url = "http://news.chosun.com/svc/list_in/list.html?pn="
+    news_company = 'josun'
 
     # dict obj for contain all news
     dataAll = OrderedDict()
@@ -62,13 +63,13 @@ def crawling_josun(page, json_path):
             newsData = OrderedDict()
             newsData['title'] = news_title
             newsData['link'] = news_link
-            newsData['press'] = 'josun'
+            newsData['press'] = news_company
             newsData['date'] = news_date
 
             dataAll[str(data_idx)] = newsData
             data_idx += 1
         
-        pdb.set_trace()
+        # pdb.set_trace()
 
 
         with open(json_path, 'w') as json_out:
