@@ -17,7 +17,7 @@ from bs4 import BeautifulSoup
 
 ### CAUTION
 json 파일로 변환하기 전 dictionary data는 collections.OrderedDict 모듈을 사용할 것.
-
+***
 ### 저장 json 양식
 
   ~~~
