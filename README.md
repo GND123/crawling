@@ -35,7 +35,7 @@ json 파일로 변환하기 전 dictionary data는 collections.OrderedDict 모�
 robots.txt는 해당 페이지가 법적으로 crawling을 허용하는지 안하는지 확인 할 수 있는 파일  
 (출처: <http://www.ddaily.co.kr/news/article.html?no=151940>)  
 
-robotx.txt파일은 사이트의 루트에 위치함.  
+robots.txt파일은 사이트의 루트에 위치함.  
 예를 들어, www.example.com 사이트의 경우 robots.txt 파일은 www.example.com/robots.txt에 위치  
 반드시 크롤링 전 확인하고 진행할 것  
 robots.txt 파일 읽는 법은 [여기](https://support.google.com/webmasters/answer/6062596?hl=ko)를 참조  
