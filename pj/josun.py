@@ -24,7 +24,7 @@ def init_args():
 
 def crawling_josun(page, json_path):
 
-    url = "http://news.chosun.com/svc/list_in/list.html?pn="
+    url = "http://news.chosun.com/svc/list_in/list.html"
     news_company = 'josun'
 
     # dict obj for contain all news
@@ -33,8 +33,10 @@ def crawling_josun(page, json_path):
 
     for i in range(1, page+1):
         
-        url = url + str(i) # URL + page
-        request = requests.get(url)
+        params = {
+            'pn' : str(i)
+        }
+        request = requests.get(url, params=params)
         html = request.content
         soup = BeautifulSoup(html, 'html5lib')
 
