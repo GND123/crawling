@@ -24,7 +24,7 @@ def init_args():
 
 def crawling_nocut(page, json_path):
 
-    url = "http://www.nocutnews.co.kr/news/list?page="
+    url = "http://www.nocutnews.co.kr/news/list"
     news_company = 'nocut'
 
     headURL = "http://www.nocutnews.co.kr"
