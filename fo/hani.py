@@ -4,7 +4,8 @@ import requests
 from bs4 import BeautifulSoup as bs
 from collections import OrderedDict
 # pip3 install requests
-# pip3 install BeautifulSoup or pip3 install bs4
+# pip3 install bs4
+# python3 hani.py
 
 def haniCrawling():
     press = 'hani'
@@ -27,8 +28,8 @@ def haniCrawling():
         start = index
         for title in aTag:
             newsData = OrderedDict()
-            newsData["title"] = headUrl + title['href']
-            newsData["link"] = title.text
+            newsData["link"] = headUrl + title['href']
+            newsData["title"] = title.text
             newsData["press"] = 'hani'
             dataAll[str(index)] = newsData
             index += 1
@@ -43,4 +44,4 @@ def haniCrawling():
 
 
 if __name__ == "__main__":
-    haniCrawling();
+    haniCrawling()
