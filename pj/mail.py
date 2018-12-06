@@ -1,4 +1,4 @@
-# -*- condig: utf-8 -*-
+# -*- coding: utf-8 -*-
 import requests
 from bs4 import BeautifulSoup
 
@@ -34,7 +34,6 @@ def crawling_mail(page, json_path):
     dataAll = OrderedDict()
     data_idx = 0
 
-    #container_left > div.list_area > dl:nth-child(2) > dt > a
     for i in range(0, page):
         
         today = strftime("%Y%m%d", gmtime())
@@ -47,26 +46,16 @@ def crawling_mail(page, json_path):
         html = request.content
         soup = BeautifulSoup(html, 'html5lib')
 
-        # pdb.set_trace()
-
         news_list = soup.select('#container_left > div.list_area > dl')
         
         for news in news_list:
-            
-            # try:
-            #     _1 = news.select('dt > a')[0] # title & link
-            #     _2 = news.select('dd.desc')[0] # description, date
-            # except Exception as e:
-            #     print(news, i, data_idx)
-            #     print(e)
 
             _1 = news.select('dt > a')[0] # title & link
             _2 = news.select('dd.desc')[0] # description, date
 
-            news_title = _1.text 
+            news_title = _1.text
             news_link = _1['href']
             
-            # news_desc = _2.select('span.desctxt > a')[0].text
             news_date = _2.select('span.date')[0].text
 
             # make dict obj
